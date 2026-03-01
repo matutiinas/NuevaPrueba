@@ -53,11 +53,3 @@ Si ves errores como `Unresolved reference 'codex'` en `build.gradle.kts`:
 1. Ejecuta:
    ```bash
    ./scripts/fix-conflicted-gradle.sh
-   ```
-2. Reimporta en Android Studio (Sync Project with Gradle Files).
-3. Si persiste, restaura los archivos desde Git y vuelve a sincronizar:
-   ```bash
-   git checkout -- build.gradle.kts androidApp/build.gradle.kts
-   ./gradlew --stop
-   ./gradlew help
-   ```
