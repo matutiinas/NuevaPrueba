@@ -41,10 +41,15 @@ Seeding automático en primer arranque (`FakeDataSeeder`, meta key `seeded`).
 - Tests de dominio en `shared/src/commonTest` para:
   - generación de workout plan
   - límite de matches en FREE
-codex/generate-kotlin-multiplatform-tinder-like-app-wto2h7
 
 ## Troubleshooting de merges (importante)
 Si Android Studio muestra errores tipo `Unresolved reference 'codex'` o similares en `build.gradle.kts`, casi siempre quedó texto basura de resolución de conflictos (por ejemplo `codex/...`, `main` o marcadores `<<<<<<<`).
 
 Este repo incluye el workflow `.github/workflows/gradle-merge-sanity.yml` para detectar esos casos en PR antes de mergear.
-main
+
+### Recuperación rápida si Gradle se rompe por conflictos
+Si ves errores como `Unresolved reference 'codex'` en `build.gradle.kts`:
+
+1. Ejecuta:
+   ```bash
+   ./scripts/fix-conflicted-gradle.sh
