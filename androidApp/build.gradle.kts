@@ -1,7 +1,10 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+ codex/generate-kotlin-multiplatform-tinder-like-app-g348hc
     kotlin("plugin.compose")
+
+ main
 }
 
 android {
@@ -17,6 +20,10 @@ android {
     }
 
     buildFeatures { compose = true }
+ codex/generate-kotlin-multiplatform-tinder-like-app-g348hc
+
+    composeOptions { kotlinCompilerExtensionVersion = "1.5.15" }
+ main
 }
 
 dependencies {
