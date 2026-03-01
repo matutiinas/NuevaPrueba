@@ -1,0 +1,139 @@
+CREATE TABLE IF NOT EXISTS profiles (
+  id INTEGER NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  distanceKm INTEGER NOT NULL,
+  sports TEXT NOT NULL,
+  objective TEXT NOT NULL,
+  bio TEXT NOT NULL,
+  photos TEXT NOT NULL,
+  activityTags TEXT NOT NULL,
+  verified INTEGER NOT NULL,
+  socialLinks TEXT NOT NULL,
+  marks TEXT NOT NULL,
+  score INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS likesGiven (
+  profileId INTEGER NOT NULL PRIMARY KEY,
+  createdAt TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS likesReceived (
+  profileId INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS matches (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  profileId INTEGER NOT NULL,
+  createdAt TEXT NOT NULL,
+  workoutPlan TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  matchId INTEGER NOT NULL,
+  sender TEXT NOT NULL,
+  body TEXT NOT NULL,
+  sentAt TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS settings (
+  id INTEGER NOT NULL PRIMARY KEY,
+  isPremium INTEGER NOT NULL,
+  adEveryN INTEGER NOT NULL,
+  freeMatchLimit INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS myProfile (
+  id INTEGER NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  bio TEXT NOT NULL,
+  sports TEXT NOT NULL,
+  goals TEXT NOT NULL,
+  marks TEXT NOT NULL,
+  showGym INTEGER NOT NULL,
+  showZone INTEGER NOT NULL,
+  linkedSpotify INTEGER NOT NULL,
+  linkedInstagram INTEGER NOT NULL,
+  linkedStrava INTEGER NOT NULL,
+  active INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS meta (
+  key TEXT NOT NULL PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
+insertProfile:
+INSERT OR REPLACE INTO profiles VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+insertLikeGiven:
+INSERT OR REPLACE INTO likesGiven VALUES (?, ?);
+
+insertLikeReceived:
+INSERT OR REPLACE INTO likesReceived VALUES (?);
+
+insertMatch:
+INSERT INTO matches(profileId, createdAt, workoutPlan) VALUES (?, ?, ?);
+
+insertMessage:
+INSERT INTO messages(matchId, sender, body, sentAt) VALUES (?, ?, ?, ?);
+
+insertSettings:
+INSERT OR REPLACE INTO settings VALUES (?, ?, ?, ?);
+
+insertOrReplaceMyProfile:
+INSERT OR REPLACE INTO myProfile VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+insertMeta:
+INSERT OR REPLACE INTO meta VALUES (?, ?);
+
+selectMetaByKey:
+SELECT * FROM meta WHERE key = ?;
+
+deleteMetaByKey:
+DELETE FROM meta WHERE key = ?;
+
+selectProfilesByScore:
+SELECT * FROM profiles ORDER BY score DESC, id ASC;
+
+selectLikesReceived:
+SELECT p.* FROM profiles p INNER JOIN likesReceived l ON l.profileId = p.id;
+
+selectMatches:
+SELECT * FROM matches ORDER BY createdAt DESC;
+
+selectMessagesByMatch:
+SELECT * FROM messages WHERE matchId = ? ORDER BY sentAt ASC;
+
+selectRelatedByObjective:
+SELECT * FROM profiles WHERE objective = ? LIMIT 20;
+
+selectAnyProfiles:
+SELECT * FROM profiles LIMIT ?;
+
+selectProfileById:
+SELECT * FROM profiles WHERE id = ?;
+
+selectSettings:
+SELECT * FROM settings WHERE id = 1;
+
+selectMyProfile:
+SELECT * FROM myProfile WHERE id = 1;
+
+deleteAllMessages:
+DELETE FROM messages;
+
+deleteAllMatches:
+DELETE FROM matches;
+
+deleteAllLikesGiven:
+DELETE FROM likesGiven;
+
+deleteAllProfiles:
+DELETE FROM profiles;
+
+deleteLikesReceived:
+DELETE FROM likesReceived;
