@@ -1,0 +1,29 @@
+name: Gradle Merge Sanity
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  check-gradle-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect unresolved merge markers in Gradle Kotlin scripts
+        run: |
+          set -euo pipefail
+          if rg -n "^(<<<<<<<|=======|>>>>>>>)" --glob "**/*.gradle.kts" .; then
+            echo "ERROR: unresolved merge markers found in *.gradle.kts files"
+            exit 1
+          fi
+
+      - name: Detect accidental branch-name artifacts in Gradle Kotlin scripts
+        run: |
+          set -euo pipefail
+          if rg -n "codex/|^main$" --glob "**/*.gradle.kts" .; then
+            echo "ERROR: accidental branch-name artifact found in *.gradle.kts files"
+            exit 1
+          fi
